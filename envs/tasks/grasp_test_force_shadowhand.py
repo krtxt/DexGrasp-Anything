@@ -247,7 +247,7 @@ class IsaacGraspTestForce_shadowhand(BaseTask):
 
     def _set_normal_force_pose(self):
         step_size = 0.2
-        learning_rate = 0.5
+        learning_rate = 0.5 # Set 0: For a fair comparison, we adopted the settings from Gendexgrasp. However, we found that setting this value to 0 yields better performance.
         contact_threshold = 0.005
         num_object_pts = 2048
         object_pts = self.object_mesh.sample(num_object_pts)

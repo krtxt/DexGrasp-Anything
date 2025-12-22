@@ -38,6 +38,7 @@
 
 ## 😲 Results
 Please refer to our [homepage](https://dexgraspanything.github.io/) for more thrilling results!
+> [!NOTE] In our paper, we followed *Gendexgrasp* and set the value at **line 250** of `envs/tasks/grasp_test_force_shadowhand.py` to `0.5`. However, for better visualization and testing performance in this codebase, **we recommend setting it to `0`**.
 
 # 📚 Datasets
 
