@@ -46,20 +46,20 @@ dataset:
   active: real_dex  ## Available options: MultiDexShadowHandUR, DexGraspNet, Unidexgrasp, DexGRAB, real_dex, Grasp_anything
   paths:
     MultiDexShadowHandUR:
-      asset_dir: /inspurfs/group/mayuexin/datasets/MultiDex_UR
-      asset_dir_slurm: /inspurfs/group/mayuexin/datasets/MultiDex_UR
+      asset_dir: data/MultiDex_UR
+      asset_dir_slurm: data/MultiDex_UR
     DexGraspNet:
-      asset_dir: /inspurfs/group/mayuexin/datasets/DexGraspNet
-      asset_dir_slurm: /inspurfs/group/mayuexin/datasets/DexGraspNet
+      asset_dir: data/DexGraspNet
+      asset_dir_slurm: data/DexGraspNet
     Unidexgrasp:
-      asset_dir: /inspurfs/group/mayuexin/datasets/UniDexGrasp/DFCData
-      asset_dir_slurm: /inspurfs/group/mayuexin/datasets/UniDexGrasp/DFCData
+      asset_dir: data/UniDexGrasp/DFCData
+      asset_dir_slurm: data/UniDexGrasp/DFCData
     DexGRAB:
-      asset_dir: /inspurfs/group/mayuexin/datasets/DexGRAB
-      asset_dir_slurm: /inspurfs/group/mayuexin/datasets/DexGRAB
+      asset_dir: data/DexGRAB
+      asset_dir_slurm: data/DexGRAB
     real_dex:
-      asset_dir: /inspurfs/group/mayuexin/datasets/Realdex
-      asset_dir_slurm: /inspurfs/group/mayuexin/datasets/Realdex
+      asset_dir: data/Realdex
+      asset_dir_slurm: data/Realdex
     Grasp_anyting:
-      asset_dir: /inspurfs/group/mayuexin/datasets/Grasp_anything
-      asset_dir_slurm: /inspurfs/group/mayuexin/datasets/Grasp_anything
+      asset_dir: data/Grasp_anything
+      asset_dir_slurm: data/Grasp_anything

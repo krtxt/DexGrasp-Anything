@@ -120,11 +120,15 @@ Before training and testing, please ensure that you set the dataset path, model 
 ### Sample
 
 ```bash
-bash scripts/grasp_gen_ur/sample.sh ${exp_dir} [OPT]
+bash scripts/grasp_gen_ur/sample.sh ${exp_dir} [OPT] [HYDRA_OVERRIDES...]
 # e.g., Running without Physics-Guided Sampling:   bash scripts/grasp_gen_ur/sample.sh /outputs/exp_dir [OPT]
 # e.g., Running with Physics-Guided Sampling:   bash scripts/grasp_gen_ur/sample.sh /outputs/exp_dir OPT
+# e.g., Override dataset: bash scripts/grasp_gen_ur/sample.sh /outputs/exp_dir dataset.active=DexGraspNet
 ```
 - `[OPT]` is an optional parameter for Physics-Guided Sampling.
+- `${exp_dir}` is an experiment directory (not a `.pth` file). Sampling loads checkpoints from `${exp_dir}/ckpts/model.pth` (or the latest `model_*.pth`).
+- Any additional Hydra overrides can be appended after `${exp_dir}` (and optional `OPT`), e.g. `dataset.active=DexGraspNet`.
+- `scales.pkl` is only used (if present) for `DexGraspNet`/`Unidexgrasp` sampling convenience; other datasets do not require it.
 
 ### Test 
 

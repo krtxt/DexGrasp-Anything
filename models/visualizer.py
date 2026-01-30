@@ -30,18 +30,24 @@ class GraspGenURVisualizer():
         self.use_llm = cfg.use_llm
         self.visualize_html = cfg.visualize_html
         self.datasetname = cfg.datasetname
-        ##############################################################################################################################
-        ##### Since other datasets have object scale=1, for testing convenience we use average scales from DexGraspNet and UniDexGrasp test sets #####
-        ##### To test with different mesh sizes, please adjust the mesh scale accordingly for proper visualization #####
-        ##############################################################################################################################
-        ### For DexGraspNet ###
-        if self.datasetname == 'DexGraspNet':
-            self.average_scales = self.load_average_scales('/inspurfs/group/mayuexin/datasets/DexGraspNet/scales.pkl')
-        ### For UniDexGrasp ###
-        else:
-            self.average_scales = self.load_average_scales( '/inspurfs/group/mayuexin/datasets/UniDexGrasp/DFCData/scales.pkl')
-        ##############################################################################################################################
-        ##############################################################################################################################
+        # Lazy-loaded in `visualize()` so sampling doesn't require unrelated datasets.
+        self.average_scales = None
+
+    def _maybe_load_average_scales(self, dataloader: torch.utils.data.DataLoader) -> None:
+        if self.average_scales is not None:
+            return
+
+        dataset_name = getattr(dataloader.dataset, "datasetname", None) or self.datasetname
+        asset_dir = getattr(dataloader.dataset, "asset_dir", None)
+
+        if dataset_name in {"DexGraspNet", "Unidexgrasp"} and asset_dir:
+            scales_path = os.path.join(asset_dir, "scales.pkl")
+            if os.path.exists(scales_path):
+                self.average_scales = self.load_average_scales(scales_path)
+                return
+
+        # Default: no per-object scale info (treat as scale = 1.0).
+        self.average_scales = {}
     def load_average_scales(self, file_path):
         with open(file_path, 'rb') as f:
             return pickle.load(f)
@@ -59,6 +65,7 @@ class GraspGenURVisualizer():
         """
         model.eval()
         device = model.device
+        self._maybe_load_average_scales(dataloader)
 
         os.makedirs(save_dir, exist_ok=True)
         os.makedirs(os.path.join(save_dir, 'html'), exist_ok=True)
@@ -96,7 +103,7 @@ class GraspGenURVisualizer():
         # Unified processing flow
         for object_name in cfg["objects"]:
             # Point cloud scaling processing
-            scale = self.average_scales.get(object_name, 1.0)  # Get average scale for object, default to 1.0
+            scale = self.average_scales.get(object_name, 1.0)
             obj_pcd_can = cfg["scale_op"](
                 torch.tensor(object_pcds_dict[object_name], device=device).unsqueeze(0).repeat(self.ksample, 1, 1),
                 scale
@@ -208,4 +215,3 @@ def create_visualizer(cfg: DictConfig) -> nn.Module:
         A visualizer
     """
     return VISUALIZER.get(cfg.name)(cfg)
-
